@@ -1,0 +1,5 @@
+cp -r ../cfmesh-rotating/constant/polyMesh constant/
+mergeMeshes . ../cfmesh-upstream -overwrite
+mergeMeshes . ../cfmesh-downstream -overwrite
+
+createPatch -overwrite

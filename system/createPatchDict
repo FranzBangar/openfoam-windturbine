@@ -1,0 +1,85 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  dev                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      createPatchDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Do a synchronisation of coupled points after creation of any patches.
+// Note: this does not work with points that are on multiple coupled patches
+//       with transformations (i.e. cyclics).
+pointSync false;
+
+// Patches to create.
+patches
+(
+	// AMI 1: upstream of turbine
+    {
+        //- Master side patch
+        name            upstream_outlet_ami;
+        patchInfo
+        {
+            type            cyclicAMI;
+            matchTolerance  0.0001;
+            neighbourPatch  turbine_inlet_ami;
+            transform       noOrdering;
+        }
+        constructFrom patches;
+        patches (upstream_outlet);
+    }
+
+    {
+        //- Slave side patch
+        name            turbine_inlet_ami;
+        patchInfo
+        {
+            type            cyclicAMI;
+            matchTolerance  0.0001;
+            neighbourPatch  upstream_outlet_ami;
+            transform       noOrdering;
+        }
+        constructFrom patches;
+        patches (rotating_inlet);
+    }
+	
+	// AMI 2: downstream
+	{
+        //- Master side patch
+        name            turbine_outlet_ami;
+        patchInfo
+        {
+            type            cyclicAMI;
+            matchTolerance  0.0001;
+            neighbourPatch  downstream_inlet_ami;
+            transform       noOrdering;
+        }
+        constructFrom patches;
+        patches (rotating_outlet);
+    }
+
+    {
+        //- Slave side patch
+        name            downstream_inlet_ami;
+        patchInfo
+        {
+            type            cyclicAMI;
+            matchTolerance  0.0001;
+            neighbourPatch  turbine_outlet_ami;
+            transform       noOrdering;
+        }
+        constructFrom patches;
+        patches (downstream_inlet);
+    }
+	
+);
+
+// ************************************************************************* //

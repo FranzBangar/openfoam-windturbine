@@ -1,0 +1,61 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  dev                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      omega;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 -1 0 0 0 0];
+
+internalField   uniform 100;
+
+boundaryField
+{
+    upstream_inlet
+	{
+		type            turbulentMixingLengthFrequencyInlet;
+        mixingLength    0.005;
+        value           uniform 100;   // placeholder
+	}
+	
+	"(upstream_walls|rotating_walls|downstream_walls)"
+	{
+		type	zeroGradient;
+	}
+	
+	rotating_turbine
+	{
+		type	omegaWallFunction;
+		value	uniform 100;
+	}
+	
+	downstream_turbine
+	{
+		type	omegaWallFunction;
+		value	uniform 100;
+	}
+	
+	downstream_outlet
+	{
+		type	zeroGradient;
+	}
+	
+	".*_ami"
+	{
+		type	cyclicAMI;
+		value	uniform 100;
+	}
+}
+
+
+// ************************************************************************* //
