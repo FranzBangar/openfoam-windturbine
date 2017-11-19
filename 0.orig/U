@@ -17,14 +17,14 @@ FoamFile
 
 dimensions      [0 1 -1 0 0 0 0];
 
-internalField   uniform (0 0 1);
+internalField   uniform (0 0 1.5);
 
 boundaryField
 {
     upstream_inlet
 	{
 		type 	fixedValue;
-		value	uniform (0 0 1);	
+		value	uniform (0 0 1.5);	
 	}
 	
 	"(upstream_walls|rotating_walls|downstream_walls)"
@@ -46,13 +46,13 @@ boundaryField
 	downstream_outlet
 	{
 		type	zeroGradient;
-		value	uniform (0 0 1);
+		value	uniform (0 0 1.5);
 	}
 	
 	".*_ami"
 	{
 		type	cyclicAMI;
-		value	uniform (0 0 1);
+		value	uniform (0 0 1.5);
 	}
 }
 
