@@ -16,7 +16,10 @@ FoamFile
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 
-dynamicFvMesh   solidBodyMotionFvMesh;
+//
+// native Ubuntu 16.04 configuration
+//
+/* dynamicFvMesh   solidBodyMotionFvMesh;
 
 motionSolverLibs ( "libfvMotionSolvers.so" );
 
@@ -31,6 +34,25 @@ solidBodyMotionFvMeshCoeffs
         axis        (0 0 1);
         omega       0.52; // rad/s (5 RPM)
     }
-}
+} */
+
+//
+// TurbomachineryCFD configuration
+//
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   dynamicMotionSolverFvMesh;
+
+motionSolverLibs ("libfvMotionSolvers.so");
+
+motionSolver    solidBody;
+
+cellZone        rotating;
+
+solidBodyMotionFunction  rotatingMotion;
+
+origin      (0 0 0);
+axis        (0 0 1);
+omega       0.52; // rad/s
 
 // ************************************************************************* //

@@ -1,1 +1,1 @@
-mpiexec -np 2 pimpleDyMFoam -parallel
+mpiexec -np 4 pimpleDyMFoam -parallel

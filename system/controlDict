@@ -21,12 +21,18 @@ startFrom       latestTime;
 startTime       0;
 
 stopAt          endTime;
-endTime         0.5;
+endTime         4.5;
 
+// 5 RPM/min
+// 12 sec/rev
+// 4 sec/blade
+// 100 frames
+// 10 additional frames
+// 0.04 sec/frame
 deltaT          1e-3;
-writeControl    timeStep;
-writeInterval   1;
-purgeWrite      50;
+writeControl    runTime;
+writeInterval   0.04;
+purgeWrite      0;
 
 writeFormat     binary;
 writePrecision  6;
@@ -37,7 +43,7 @@ timePrecision   6;
 
 runTimeModifiable true;
 
-adjustTimeStep  yes;
+adjustTimeStep  no;
 maxCo           50;
 
 functions
